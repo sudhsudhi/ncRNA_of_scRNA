@@ -18,7 +18,7 @@ The program generates four output files(a bed file of ncos-ncRNA (NOvel Cell-typ
 
 If any of the 6 paths are not mentioned the program throws an error.
 
-The command line option and the path to the sting can be separated either by a space or by "="( you could call the program as bam_file=/path/.. or bam_file /path/..)
+The command line option and the path to the sting can be separated either by a space or by "=". ( you could call the program as bam_file=/path/.. or bam_file /path/..)
 
 You could also run using shorter commands as:
 ```
