@@ -26,8 +26,9 @@ except getopt.GetoptError:
       print('run as : python nocs_ncrna.py --bam_file path/to/bam_file/bam_file.bam --bai_file=path/to/bai_file/bai_file.bai --counts_csv path/to/csv_file/csv_file.csv --counts_csv_nocs  path/to/csv_file/csv_nocs_file.csv --pdf_file path/to/pdf_file/pdf_file.pdf --bed_file path/to/pdf_file/bed_file.bed')
       print("")
       print('or run as : python nocs_ncrna.py -b path/to/bam_file/bam_file.bam -i path/to/bai_file/bai_file.bai -c path/to/csv_file/csv_file.csv -n path/to/csv_file/csv_nocs_file.csv -p path/to/pdf_file/pdf_file.pdf -d path/to/pdf_file/bed_file.bed')
+      print("")
       print("sample execution of program:")
-      print("python nocs_ncrna.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -p /content/drive/My Drive/resultss1.pdf")
+      print("python nocs_ncrna.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -n /content/drive/My Drive/countss2.csv -p /content/drive/My Drive/resultss1.pdf -d /content/drive/My Drive/resultss_bed.bed")
       sys.exit(2)
 
 '''code to confirm files exist and directories of csv and pdf exits'''
@@ -43,10 +44,10 @@ for opt, arg in opts:
         counts_csv_nocs = arg
     elif opt in ('-p', '--pdf_file'):
         pdf_file = arg
-    elif opt in ('-p', '--bed_file'):
+    elif opt in ('-d', '--bed_file'):
         bed_file = arg
 
-
+print(bed_file)
 
 #bam_file = "/content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam"
 
