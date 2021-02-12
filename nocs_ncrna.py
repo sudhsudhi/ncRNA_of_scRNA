@@ -7,6 +7,8 @@ import numpy as np
 import itertools
 import sys
 import getopt
+import matplotlib as plt
+import matplotlib.pyplot
 print("done importing")
 
 #"--bam_file","--bai_file","--counts_csv","--pdf_file" are all necessarily rquired arguments.
@@ -239,6 +241,7 @@ for i in tqdm(range(0,len(x))):
             continue
 
 list_tags_all_rm_dup = list(list_tags_all for list_tags_all,_ in itertools.groupby(list_tags_all))
+#list_tags_all_rm_dup=[['GAGAAATAGAACCGCA-1', 'ACTGCTCTGAGT', 'gene-14-21509976-21510066'], ['GCACTAATCTTCTCAA-1', 'ACCTCCGTCGCA', 'gene-14-21510131-21510221']]
 
 start=0
 val=int(list_tags_all_rm_dup[start][2].split("-")[2])
