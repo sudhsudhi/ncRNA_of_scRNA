@@ -28,6 +28,6 @@ python nocs_ncrna.py -b path/to/bam_file/bam_file.bam -i path/to/bai_file/bai_fi
 An example to indicate how to run the program:
 
 ```
-python processing_for_genes.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -n /content/drive/My Drive/countss2.csv -p /content/drive/My Drive/resultss1.pdf -d /content/drive/My Drive/resultss_bed.bed  
+python nocs_ncrna.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -n /content/drive/My Drive/countss2.csv -p /content/drive/My Drive/resultss1.pdf -d /content/drive/My Drive/resultss_bed.bed  
 ```
 
