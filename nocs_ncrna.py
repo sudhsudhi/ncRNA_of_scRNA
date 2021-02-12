@@ -21,11 +21,11 @@ try:
       opts, args = getopt.getopt(sys.argv[1:],"b:i:c:n:p:d:",["bam_file=","bai_file=","counts_csv=","counts_csv_nocs=","pdf_file=","bed_file="])
 except getopt.GetoptError:
       print('wrong argument format')
-      print('run as : python processing_for_genes.py --bam_file path/to/bam_file/bam_file.bam --bai_file=path/to/bai_file/bai_file.bai --counts_csv path/to/csv_file/csv_file.bai --pdf_file path/to/pdf_file/pdf_file.pdf ')
-      print('or run as : python processing_for_genes.py -b path/to/bam_file/bam_file.bam -i path/to/bai_file/bai_file.bai -c path/to/csv_file/csv_file.bai -p path/to/pdf_file/pdf_file.pdf ')
-      
+      print('run as : python nocs_ncrna.py --bam_file path/to/bam_file/bam_file.bam --bai_file=path/to/bai_file/bai_file.bai --counts_csv path/to/csv_file/csv_file.csv --counts_csv_nocs  path/to/csv_file/csv_nocs_file.csv --pdf_file path/to/pdf_file/pdf_file.pdf --bed_file path/to/pdf_file/bed_file.bed')
+      print("")
+      print('or run as : python nocs_ncrna.py -b path/to/bam_file/bam_file.bam -i path/to/bai_file/bai_file.bai -c path/to/csv_file/csv_file.csv -n path/to/csv_file/csv_nocs_file.csv -p path/to/pdf_file/pdf_file.pdf -d path/to/pdf_file/bed_file.bed')
       print("sample execution of program:")
-      print("python processing_for_genes.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -p /content/drive/My Drive/resultss1.pdf")
+      print("python nocs_ncrna.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -p /content/drive/My Drive/resultss1.pdf")
       sys.exit(2)
 
 '''code to confirm files exist and directories of csv and pdf exits'''
@@ -227,7 +227,6 @@ axes[0,1].set_title("Num of genes that each cell matches to.",fontsize=6)
 
 #analysis for non_genes:
 #read all non-genes
-%%time
 x=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','X','Y']
 list_tags_all = []
 
@@ -241,7 +240,6 @@ for i in tqdm(range(0,len(x))):
 
 list_tags_all_rm_dup = list(list_tags_all for list_tags_all,_ in itertools.groupby(list_tags_all))
 
-%%time
 start=0
 val=int(list_tags_all_rm_dup[start][2].split("-")[2])
 collapse_len = 300
@@ -271,7 +269,6 @@ for i in list_tags_all_rm_dup_final:
 f.close()
 
 
-%%time
 df_all_p1 = pd.DataFrame(list_tags_all_rm_dup_final[:int(n/20)], columns=["celltag","moltag","pseudoname"])
 df_all_p2 = pd.DataFrame(list_tags_all_rm_dup_final[int(n/20):int(2*n/20)], columns=["celltag","moltag","pseudoname"])
 df_all_p3 = pd.DataFrame(list_tags_all_rm_dup_final[int(2*n/20):int(3*n/20)], columns=["celltag","moltag","pseudoname"])
@@ -294,7 +291,6 @@ df_all_p19 = pd.DataFrame(list_tags_all_rm_dup_final[int(18*n/20):int(19*n/20)],
 df_all_p20 = pd.DataFrame(list_tags_all_rm_dup_final[int(19*n/20):], columns=["celltag","moltag","pseudoname"])
 
 
-%%time
 c1 = df_all_p1['celltag'].value_counts()
 c2 = df_all_p2['celltag'].value_counts()
 c3 = df_all_p3['celltag'].value_counts()
@@ -336,7 +332,7 @@ c1818 = df_all_p18['pseudoname'].value_counts()
 c1919 = df_all_p19['pseudoname'].value_counts()
 c2020 = df_all_p20['pseudoname'].value_counts()
 
-%time
+
 df_all_p1_subset = df_all_p1[df_all_p1["celltag"].isin(c1[c1>20].index)]
 df_all_p1_subset = df_all_p1_subset[df_all_p1_subset["pseudoname"].isin(c111[c111>20].index)]
 df_all_p2_subset = df_all_p2[df_all_p2["celltag"].isin(c2[c2>20].index)]
@@ -378,7 +374,6 @@ df_all_p19_subset = df_all_p19_subset[df_all_p19_subset["pseudoname"].isin(c1919
 df_all_p20_subset = df_all_p20[df_all_p20["celltag"].isin(c20[c20>20].index)]
 df_all_p20_subset = df_all_p20_subset[df_all_p20_subset["pseudoname"].isin(c2020[c2020>20].index)]
 
-%%time
 counts_p1=df_all_p1_subset.groupby(['pseudoname','celltag']).size().unstack('celltag', fill_value=0)
 counts_p2=df_all_p2_subset.groupby(['pseudoname','celltag']).size().unstack('celltag', fill_value=0)
 counts_p3=df_all_p3_subset.groupby(['pseudoname','celltag']).size().unstack('celltag', fill_value=0)
@@ -402,7 +397,6 @@ counts_p20=df_all_p20_subset.groupby(['pseudoname','celltag']).size().unstack('c
 
 cell_bcode=set(counts_p1.columns).intersection(set(counts_p2.columns)).intersection(set(counts_p3.columns)).intersection(set(counts_p4.columns)).intersection(set(counts_p5.columns)).intersection(set(counts_p6.columns)).intersection(set(counts_p7.columns)).intersection(set(counts_p8.columns)).intersection(set(counts_p9.columns)).intersection(set(counts_p10.columns)).intersection(set(counts_p11.columns)).intersection(set(counts_p12.columns)).intersection(set(counts_p13.columns)).intersection(set(counts_p14.columns)).intersection(set(counts_p15.columns)).intersection(set(counts_p16.columns)).intersection(set(counts_p17.columns)).intersection(set(counts_p18.columns)).intersection(set(counts_p19.columns)).intersection(set(counts_p20.columns))
 
-%%time
 counts_p1 = counts_p1[cell_bcode]
 counts_p2 = counts_p2[cell_bcode]
 counts_p3 = counts_p3[cell_bcode]
@@ -424,7 +418,6 @@ counts_p18 = counts_p18[cell_bcode]
 counts_p19 = counts_p19[cell_bcode]
 counts_p20 = counts_p20[cell_bcode]
 
-%%time
 counts_full_ng = pd.concat([counts_p1,counts_p2, counts_p3, counts_p4, counts_p5, counts_p6, counts_p7, counts_p8, counts_p9, counts_p10, counts_p11,counts_p12, counts_p13, counts_p14, counts_p15, counts_p16, counts_p17, counts_p18, counts_p19, counts_p20])
 counts_new_ng=counts_full_ng.groupby(level=0, axis=0).sum()
 counts_new.to_csv(counts_csv_nocs)
