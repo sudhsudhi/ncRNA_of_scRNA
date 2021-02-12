@@ -1,7 +1,7 @@
 
 ## **Instructions to run the python script:**
 
-Make sure [pysam](https://pysam.readthedocs.io/en/latest/installation.html), [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html) and [numpy](https://pypi.org/project/numpy/) are installed.
+Make sure the libraries [pysam](https://pysam.readthedocs.io/en/latest/installation.html), [pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html), [numpy](https://pypi.org/project/numpy/) and [matplotlib](https://matplotlib.org/stable/users/installing.html) are installed.
 
 To run the script, type the following command in your commandline (your current directory should be the one where the python script is saved):
 
