@@ -25,3 +25,9 @@ You could also run using shorter commands as:
 python nocs_ncrna.py -b path/to/bam_file/bam_file.bam -i path/to/bai_file/bai_file.bai -c path/to/csv_file/csv_file.csv -n path/to/csv_file/csv_nocs_file.csv -p path/to/pdf_file/pdf_file.pdf -d path/to/pdf_file/bed_file.bed
 
 ```
+An example to indicate how to run the program:
+
+```
+python processing_for_genes.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -n /content/drive/My Drive/countss2.csv -p /content/drive/My Drive/resultss1.pdf -d /content/drive/My Drive/resultss_bed.bed  
+```
+
