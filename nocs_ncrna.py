@@ -265,13 +265,6 @@ for i in tqdm(range(1,len(list_tags_all_rm_dup))):
 list_tags_all_rm_dup_final = list(list_tags_all_rm_dup for list_tags_all_rm_dup,_ in itertools.groupby(list_tags_all_rm_dup))
 n=len(list_tags_all_rm_dup_final)
 
-f=open(bed_file,"w")
-#list_tags_all_rm_dup_final=[['GAGAAATAGAACCGCA-1', 'ACTGCTCTGAGT', 'gene-14-21509976-21510066'], ['GCACTAATCTTCTCAA-1', 'ACCTCCGTCGCA', 'gene-14-21510131-21510221']]
-for i in list_tags_all_rm_dup_final:
-  k=i[-1].split("-")
-  f.write("chr"+k[1]+"\t"+k[2]+"\t"+k[3]+"\n")
-f.close()
-
 
 df_all_p1 = pd.DataFrame(list_tags_all_rm_dup_final[:int(n/20)], columns=["celltag","moltag","pseudoname"])
 df_all_p2 = pd.DataFrame(list_tags_all_rm_dup_final[int(n/20):int(2*n/20)], columns=["celltag","moltag","pseudoname"])
@@ -424,22 +417,52 @@ counts_p20 = counts_p20[cell_bcode]
 
 counts_full_ng = pd.concat([counts_p1,counts_p2, counts_p3, counts_p4, counts_p5, counts_p6, counts_p7, counts_p8, counts_p9, counts_p10, counts_p11,counts_p12, counts_p13, counts_p14, counts_p15, counts_p16, counts_p17, counts_p18, counts_p19, counts_p20])
 counts_new_ng=counts_full_ng.groupby(level=0, axis=0).sum()
-counts_new.to_csv(counts_csv_nocs)
+counts_new_ng.to_csv(counts_csv_nocs)
 
 
-num_genes_ng=counts_new_ng.astype(bool).sum(axis=1)
-#num_genes is the number of genes that each cell matches to
-print(num_genes_ng)
-hist_ng=num_genes_ng.hist(bins=20,ax=axes[1,0],figure=fig1)
-print("max_num_of _genes: "+str(num_genes.max()))
+
+
+num_cells_ng=counts_new_ng.astype(bool).sum(axis=1)
+#num_cells_ng is the number of cells that each gene matches to
+num_count_ng=counts_new_ng.sum(axis=1)
+#num_count_ng is the total number of reads that aligned with the TAR
+median_expression=counts_new_ng.replace(0,np.nan).median(axis=1,skipna=True)
+#median_expression is the median of the non-zero values in each row
+
+print("num_cells_ng:")
+print(num_cells_ng)
+print("num_count_ng:")
+print(num_count_ng)
+print("median_expression:")
+print(median_expression)
+
+fin=pd.concat([num_cells_ng, num_count_ng,median_expression], axis=1)
+fin.sort_values(by=0, inplace=True, ascending=False) #sorted based on number of cells that each TAR matches to
+print("BED FILE:")
+print(fin)
+ 
+f=open(bed_file,"w")
+#list_tags_all_rm_dup_final=[['GAGAAATAGAACCGCA-1', 'ACTGCTCTGAGT', 'gene-14-21509976-21510066'], ['GCACTAATCTTCTCAA-1', 'ACCTCCGTCGCA', 'gene-14-21510131-21510221']]
+n=0
+f.write("#chrom"+"\t"+ "chromStart"+"\t"+ "chromEnd"+"\t"+"num_cells_aligned_to"+"\t"+"num_molecules_aligned_to"+"\t"+"median_of_nonzero_count_vals"+"\n")
+for index, row in fin.iterrows():
+    #index=gene-14-21509976-21510066
+    k=index.split("-")
+    f.write("chr"+k[1]+"\t"+k[2]+"\t"+k[3]+"\t"+str(row[0])+"\t"+str(row[1])+"\t"+str(row[2])+"\n")
+    if n<10:print(index,row[0],row[1],row[2])
+    n+=1
+f.close()
+
+hist_ng=num_cells_ng.hist(bins=20,ax=axes[1,0],figure=fig1)
+#print("max_num_of _genes: "+str(num_genes.max()))
 #print(type(fig.axes[0]))
 axes[1,0].set_xlabel("number of non genes",fontsize=7)
 axes[1,0].set_ylabel("number of cells",fontsize=7)
 #axes[1,0].set_title("Histogram of number of non-genes that each cell matches to.",fontsize=7)
 
 
-num_genes_ng.sort_values()
-num_genes_ng.plot(ax=axes[1,1],figure=fig1)
+num_cells_ng.sort_values()
+num_cells_ng.plot(ax=axes[1,1],figure=fig1)
 axes[1,1].set_ylabel("number of non genes",fontsize=7)
 axes[1,1].set_xlabel("cell IDs",fontsize=7)
 axes[1,1].set_xticks([])
