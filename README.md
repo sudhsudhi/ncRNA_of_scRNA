@@ -33,7 +33,9 @@ An example to indicate how to run the program:
 python nocs_ncrna.py -b /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam -i /content/drive/My Drive/pbmc_1k_protein_v3_possorted_genome_bam.bam.bai -c /content/drive/My Drive/countss1.csv -n /content/drive/My Drive/countss2.csv -p /content/drive/My Drive/resultss1.pdf -d /content/drive/My Drive/resultss_bed.bed  
 ```
 Link to collab notetbooks:
+
 BAM to CSV : https://colab.research.google.com/drive/1wZtAqXf7YWTCP9d7Kc1HHUKcAI4RpajW?usp=sharing
+
 CSV to plots: https://colab.research.google.com/drive/1NndjdnfilwKqRMro83QSN3AetkHuBm1b?usp=sharing 
 
 
